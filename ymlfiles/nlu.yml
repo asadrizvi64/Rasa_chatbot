@@ -1,0 +1,36 @@
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - Hello
+      - Hi
+      - Hey
+
+  - intent: inquire_policy
+    examples: |
+      - Can you tell me about my policy?
+      - What does my insurance policy cover?
+
+  - intent: file_claim
+    examples: |
+      - I want to file a claim for my car accident.
+      - Help me with a claim for water damage.
+      - File a claim for my stolen items.
+
+  - intent: get_quote
+    examples: |
+      - How much is car insurance for a new driver?
+      - Can I get a quote for home insurance?
+      - Quote for motorcycle insurance.
+
+  - intent: cancel_policy
+    examples: |
+      - I want to cancel my auto insurance policy.
+      - How can I stop my insurance coverage?
+      - Cancel my policy.
+
+  - intent: ask_contact_info
+    examples: |
+      - Give me the phone number for claims assistance.
+      - Contact information for your customer support.

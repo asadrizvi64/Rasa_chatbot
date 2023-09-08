@@ -1,0 +1,20 @@
+version: '3.1'
+intent:
+- greet
+- deny
+- inquire_policy
+- file_claim
+- cancel_policy
+responses:
+- utter_greet:
+  - text: hello how are you and how can i help you
+  - text: hello i hope you are fine how can i help you
+- utter_policy_info:
+  - text: Your policy covers XYZ. For more details, contact our support you can also
+      visit our website.
+- utter_file_claim:
+  - text: Sure, I can help you file a claim. Please provide your policy number.
+  - text: Sure, I can help you file a claim. Please provide your policy and its relevant
+      detail.
+- utter_cancel_policy:
+  - text: To cancel your policy, please contact our customer support.

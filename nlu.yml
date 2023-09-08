@@ -1,0 +1,10 @@
+version: '3.1'
+nlu:
+- intent: greet
+  examples: |
+    - hi
+    - hello
+    - hello there
+- intent: deny
+  examples: |
+    []

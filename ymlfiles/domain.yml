@@ -1,0 +1,41 @@
+version: "3.1"
+
+
+intents:
+  - greet
+  - inquire_policy
+  - file_claim
+  - get_quote
+  - cancel_policy
+  - ask_contact_info
+  - inform
+
+responses:
+  utter_greet:
+    - text: "Hello! How can I assist you today?"
+    - text: "Hello! How can I assist you tomarrow?"
+    - text: "Hello! How can I help you?"
+
+  utter_policy_info:
+    - text: "Your policy covers XYZ. For more details, contact our support."
+
+  # Define more responses for new intents
+  utter_file_claim:
+    - text: "Sure, I can help you file a claim. Please provide your policy number."
+
+  utter_get_quote:
+    - text: "I can provide you with a quote. What type of insurance are you interested in?"
+
+  utter_cancel_policy:
+    - text: "To cancel your policy, please contact our customer support."
+
+  utter_contact_info:
+    - text: "You can reach our customer support at support@example.com or by calling 1-800-123-4567."
+actions:
+  - action_provide_policy_info
+  - action_submit_claim
+  - action_provide_quote
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

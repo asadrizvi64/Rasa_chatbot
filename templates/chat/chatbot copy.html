@@ -1,0 +1,42 @@
+<!-- chatbot.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+</head>
+<body>
+    <h1>Chatbot</h1>
+    <form id="chat-form">
+        <input type="text" id="user-input" placeholder="Type your message..." />
+        <button type="button" onclick="">Send</button>
+    </form>
+    <div id="chat-output"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#chat-form").submit(function(e) {
+                e.preventDefault();
+                var userMessage = $("#user-input").val();
+                var csrf_token = "{% csrf_token %}";
+                $.ajax({
+                    type: "POST",
+                    url: "/chatbot/chat_bot",
+                       headers: {
+        "X-CSRFToken": csrf_token,
+    }
+                    data: { message: userMessage },
+                    success: function(data) {
+                        $("#chat-output").append("<p>You: " + userMessage + "</p>");
+                        $("#chat-output").append("<p>Bot: " + data.message + "</p>");
+                        $("#user-input").val("");  // Clear the input field
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

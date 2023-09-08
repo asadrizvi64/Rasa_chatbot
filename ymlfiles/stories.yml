@@ -1,0 +1,52 @@
+#version: "3.1"
+#
+#stories:
+#  - story: greet and inquire about policy
+#    steps:
+#      - intent: greet
+#      - action: utter_greet
+#      - intent: inquire_policy
+#      - action: utter_policy_info
+#
+#  - story: file a claim
+#    steps:
+#      - intent: file_claim
+#      - action: utter_file_claim
+#      - intent: inform
+#      - action: action_submit_claim
+#
+#  - story: get a quote
+#    steps:
+#      - intent: get_quote
+#      - action: utter_get_quote
+#      - intent: inform
+#      - action: action_provide_quote
+#
+#  - story: cancel policy
+#    steps:
+#      - intent: cancel_policy
+#      - action: utter_cancel_policy
+#
+#  - story: inquire about contact info
+#    steps:
+#      - intent: ask_contact_info
+#      - action: utter_contact_info
+
+version: '3.1'
+stories:
+- story: greet and inquire about policy
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: inquire_policy
+  - action: utter_policy_info
+- story: file a claim
+  steps:
+  - intent: file_claim
+  - action: utter_file_claim
+  - intent: inform
+  - action: action_submit_claim
+- story: cancel policy
+  steps:
+  - intent: cancel_policy
+  - action: utter_cancel_policy

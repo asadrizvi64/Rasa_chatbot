@@ -1,0 +1,18 @@
+version: '3.1'
+stories:
+- story: greet and inquire about policy
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: inquire_policy
+  - action: utter_policy_info
+- story: file a claim
+  steps:
+  - intent: file_claim
+  - action: utter_file_claim
+  - intent: inform
+  - action: action_submit_claim
+- story: cancel policy
+  steps:
+  - intent: cancel_policy
+  - action: utter_cancel_policy

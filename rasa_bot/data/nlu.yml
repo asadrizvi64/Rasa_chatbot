@@ -1,0 +1,30 @@
+version: '3.1'
+nlu:
+- intent: greet
+  examples: |
+    - hi
+    - hello
+    - hello there
+- intent: deny
+  examples: |
+    - bye
+    - good bye
+- intent: inquire_policy
+  examples: |
+    - Can you tell me about my policy?
+    - What does my insurance policy cover?
+    - describe my insurance policy
+- intent: file_claim
+  examples: |
+    - I want to file a claim for my car accident.
+    - Help me with a claim for water damage.
+    - File a claim for my stolen items.
+- intent: cancel_policy
+  examples: |
+    - I want to cancel my auto insurance policy.
+    - How can I stop my insurance coverage?
+    - Cancel my policy.
+- intent: fallback
+  examples: |
+    - I didn't understand that
+    - Can you help me with something else?
