@@ -1,3 +1,5 @@
+import threading
+
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from rest_framework.views import APIView
@@ -22,6 +24,7 @@ from rasa.shared.core.events import UserUttered, ActionExecuted
 from rasa.shared.core.constants import ACTION_LISTEN_NAME
 # rasa_agent = Agent.load("rasa_bot/models")
 
+
 def literalize_list(v):
     assert isinstance(v, list)
     buf = io.StringIO()
@@ -40,6 +43,15 @@ def transform_value(d, key, transformation):
     elif isinstance(d, list):
         for elem in d:
             transform_value(elem, key, transformation)
+
+
+def run_rasa_command():
+    command = 'rasa train'  # Assuming you pass the command as a JSON field
+    working_directory = 'rasa_bot'  # Replace with the actual path
+    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, text=True,
+                            cwd=working_directory)
+    # output = result.stdout
+    # error = result.stderr
 
 
 class NluApiView(APIView):
@@ -124,15 +136,9 @@ class RunRasaTrainCommandView(APIView):
     def post(self, request):
         command = 'rasa train' # Assuming you pass the command as a JSON field
         working_directory = 'rasa_bot'  # Replace with the actual path
-
-        try:
-            result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, text=True,
-                                    cwd=working_directory)
-            output = result.stdout
-            error = result.stderr
-            return Response({'output': output, 'error': error})
-        except Exception as e:
-            return Response({'error': str(e)})
+        thread = threading.Thread(target=run_rasa_command)
+        thread.start()
+        return Response({"msg": "run rasa command"})
 
 
 class RunRasaServerCommandView(APIView):
