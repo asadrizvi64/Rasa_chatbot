@@ -136,15 +136,6 @@ class RunRasaTrainCommandView(APIView):
     def post(self, request):
         command = 'rasa train' # Assuming you pass the command as a JSON field
         working_directory = 'rasa_bot'  # Replace with the actual path
-        thread = threading.Thread(target=run_rasa_command)
-        thread.start()
-        return Response({"msg": "run rasa command"})
-
-
-class RunRasaServerCommandView(APIView):
-    def post(self, request):
-        command = 'rasa run -m models --enable-api --cors “*” --debug' # Assuming you pass the command as a JSON field
-        working_directory = 'rasa_bot'  # Replace with the actual path
 
         try:
             result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, text=True,
@@ -154,6 +145,15 @@ class RunRasaServerCommandView(APIView):
             return Response({'output': output, 'error': error})
         except Exception as e:
             return Response({'error': str(e)})
+
+
+class RunRasaServerCommandView(APIView):
+    def post(self, request):
+        command = 'rasa run -m models --enable-api --cors “*” --debug' # Assuming you pass the command as a JSON field
+        working_directory = 'rasa_bot'  # Replace with the actual path
+        thread = threading.Thread(target=run_rasa_command)
+        thread.start()
+        return Response({"msg": "run rasa command"})
 
 
 class RunCustomActionCommandView(APIView):
