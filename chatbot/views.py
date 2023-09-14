@@ -1,3 +1,4 @@
+import json
 import threading
 
 from django.shortcuts import render
@@ -7,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from chatbot.models import *
 from rasa.core.agent import Agent
+from .serializers import *
 from chatbot.models import *
 import os
 import yaml
@@ -214,3 +216,23 @@ class ChatbotView(APIView):
 
 class ChatView(TemplateView):
     template_name: str = "chat/chat.html"
+
+
+class GetPolicyInfo(APIView):
+    def post(self, request):
+        policy_number = request.data.get('policy_number')
+        policy_info = PolicyInformation.objects.filter(policy_number=policy_number).first()
+        if policy_info:
+            serializer = PolicyInformationSerializer(policy_info)
+            return Response(serializer.data)
+        return Response({"msg": "you have no policy with this policy_number"})
+
+class ApiCall(APIView):
+    def post(self, request):
+      end_point = "http://127.0.0.1:8000/chatbot/get_policy_info"
+      data = {
+          "policy_number": "123456"
+      }
+      response = requests.post(end_point, json=data)
+      response = json.loads(response.text)
+      return Response(response)

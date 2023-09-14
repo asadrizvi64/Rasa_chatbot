@@ -41,4 +41,18 @@ class Story(models.Model):
         return self.story
 
 
+class Entity(models.Model):
+    entity = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return self.entity
+
+
+class PolicyInformation(models.Model):
+    policy_number = models.CharField(max_length=255, null=True, blank=True)
+    policy_detail = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return self.policy_number
+
 

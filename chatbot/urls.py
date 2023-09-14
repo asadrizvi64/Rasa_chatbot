@@ -12,4 +12,6 @@ urlpatterns = [
     path('run_rasa_server', RunRasaServerCommandView.as_view()),
     path('run_custom_actions', RunCustomActionCommandView.as_view()),
     path('terminate_rasa_server', TerminateRasaServerView.as_view()),
+    path('get_policy_info', GetPolicyInfo.as_view()),
+    path('api_call', ApiCall.as_view()),
 ]

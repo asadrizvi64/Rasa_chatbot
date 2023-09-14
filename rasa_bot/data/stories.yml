@@ -6,6 +6,10 @@ stories:
   - action: utter_greet
   - intent: inquire_policy
   - action: utter_policy_info
+  - intent: ask_policy_number
+    entities:
+      - policy_number: 12345
+  - action: action_provide_quote
 - story: file a claim
   steps:
   - intent: file_claim
@@ -16,3 +20,47 @@ stories:
   steps:
   - intent: cancel_policy
   - action: utter_cancel_policy
+- story: info about wife insurance
+  steps:
+  - intent: wife_insurance
+  - action: utter_wife_insurance_info
+- story: Introduction
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: get_info
+  - action: utter_ask_basic_info
+
+- story: Information Gathering
+  steps:
+  - intent: personal_info
+  - action: utter_collect_info
+  - intent: choose_policy
+  - action: utter_recommend_policy
+- story: Quote Generation
+  steps:
+  - intent: choose_policy
+  - action: utter_generate_quote
+  - intent: ask_payment_options
+  - action: utter_explain_payment_options
+- story: Handling Queries
+  steps:
+  - intent: ask_coverage_limits
+  - action: utter_explain_coverage_limits
+  - intent: ask_claims_process
+  - action: utter_explain_claims_process
+- story: Closing the Sale
+  steps:
+  - intent: confirm_purchase
+  - action: utter_close_sale
+  - action: utter_assist_application
+- story: Post-Sale Assistance
+  steps:
+  - intent: ask_policy_documents
+  - action: utter_provide_policy_documents
+  - intent: ask_claim_procedures
+  - action: utter_explain_claim_procedures
+- story: Farewell
+  steps:
+  - intent: farewell
+  - action: utter_farewell
