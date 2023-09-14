@@ -32,7 +32,7 @@ class ActionPolicyInformation(Action):
         # Implement logic to provide an insurance quote based on user input
         # policy_number = tracker.get_slot('policy_number')
         policy_number = tracker.latest_message['entities'][0]['value']
-        end_point = "http://127.0.0.1:8000/chatbot/get_policy_info"
+        end_point = "http://45.15.25.205:8007/chatbot/get_policy_info"
         data = {
             "policy_number": policy_number
         }
