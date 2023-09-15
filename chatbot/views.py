@@ -218,6 +218,14 @@ class ChatView(TemplateView):
     template_name: str = "chat/chat.html"
 
 
+def index_view(request):
+    return render(request, 'chat/index.html', {
+        'rooms': Room.objects.all(),
+    })
+
+
+
+
 class GetPolicyInfo(APIView):
     def post(self, request):
         policy_number = request.data.get('policy_number')
@@ -226,6 +234,7 @@ class GetPolicyInfo(APIView):
             serializer = PolicyInformationSerializer(policy_info)
             return Response(serializer.data)
         return Response({"msg": "you have no policy with this policy_number"})
+
 
 class ApiCall(APIView):
     def post(self, request):

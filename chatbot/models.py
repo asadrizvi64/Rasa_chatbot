@@ -1,7 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
-# Create your models here.
 
+# Create your models here.
+User = get_user_model()
 
 class Intent(models.Model):
     intent_name = models.CharField(max_length=255, null=True, blank=True)
@@ -56,3 +58,15 @@ class PolicyInformation(models.Model):
         return self.policy_number
 
 
+class Room(models.Model):
+    name = models.CharField(max_length=128, null=True, blank=True)
+
+
+class Message(models.Model):
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    room = models.ForeignKey(to=Room, on_delete=models.CASCADE)
+    content = models.CharField(max_length=512)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user.username}: {self.content} [{self.timestamp}]'

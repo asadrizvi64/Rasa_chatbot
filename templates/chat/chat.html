@@ -25,10 +25,20 @@
 </div>
 {% endblock %}
 {% block scripts %}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
 <script>
+    var currentURL = window.location.href;
+      var url = new URL(currentURL);
+    var path = url.pathname; // e.g., "/path/to/resource"
+    var endpoint = path.split("/");
+    <!--alert(endpoint[3]);-->
+
+
+  const roomName = endpoint[3];
   var wss_protocol = window.location.protocol == "https:" ? "wss://" : "ws://";
   var chatSocket = new WebSocket(
-    wss_protocol + window.location.host + "/ws/chat/"
+    wss_protocol + window.location.host + "/ws/chat/" + roomName + "/"
   );
   var messages = [];
 
@@ -36,11 +46,17 @@
     document.querySelector("#chat-header").innerHTML =
       "Welcome to Django Chatbot";
   };
+  let chatLog = document.querySelector("#chat-log");
 
   chatSocket.onmessage = function (e) {
     var data = JSON.parse(e.data);
     var message = data["text"];
     messages.push(message);
+    switch (data.type) {
+    case "conservation":
+        for (let i = 0; i < data.messages.length; i++) {
+        onlineUsersSelectorAdd(data.messages[i]);
+        }
 
     var str = '<ul class="space-y-2">';
     messages.forEach(function (msg) {
