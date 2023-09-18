@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from chatbot.models import *
 from rasa.core.agent import Agent
@@ -113,7 +114,7 @@ class DomainApiView(APIView):
             dic = []
             for i in item.response_text:
                 for key, value in i.items():
-                    dic.append({'text': f''''{value}'''})
+                    dic.append({'text': f'''{value}'''})
             response_data[item.action] = dic
             # response_data.append(nlu_dat)
         # # Define the path to the output NLU YAML file
@@ -245,3 +246,36 @@ class ApiCall(APIView):
       response = requests.post(end_point, json=data)
       response = json.loads(response.text)
       return Response(response)
+
+
+class RoomView(APIView):
+    serializer_class = RoomSerializer
+
+    def post(self, request):
+        serializer = RoomSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        room = Room.objects.latest('id')
+        room.name = f'{room.name}_{room.id}'
+        room.save()
+        return Response(serializer.data)
+
+
+class ResponsesViewSeT(ModelViewSet):
+    queryset = Responses.objects.all()
+    serializer_class = ResponsesSerializer
+
+
+class ContractorViewSet(ModelViewSet):
+    queryset = Contractor.objects.all()
+    serializer_class = ContractorSerializer
+
+
+class DefinitionViewSet(ModelViewSet):
+    queryset = Definition.objects.all()
+    serializer_class = DefinitionSerializer
+
+
+class InsuranceTypeViewSet(ModelViewSet):
+    queryset = InsuranceType.objects.all()
+    serializer_class = InsuranceTypeSerializer

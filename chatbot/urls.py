@@ -1,6 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
 from .views import *
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register('responses', ResponsesViewSeT, basename='responses')
+router.register('contractors', ContractorViewSet, basename='contractors')
+router.register('definition', DefinitionViewSet, basename='definition')
+router.register('insurance_type', InsuranceTypeViewSet, basename='insurance_type')
 
 urlpatterns = [
     path('update_nlu', NluApiView.as_view()),
@@ -15,4 +22,7 @@ urlpatterns = [
     path('terminate_rasa_server', TerminateRasaServerView.as_view()),
     path('get_policy_info', GetPolicyInfo.as_view()),
     path('api_call', ApiCall.as_view()),
+    path('room', RoomView.as_view()),
 ]
+
+urlpatterns += router.urls

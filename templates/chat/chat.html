@@ -50,16 +50,17 @@
 
   chatSocket.onmessage = function (e) {
     var data = JSON.parse(e.data);
+
+    console.log("WebSocket message received", e.data);
+      if (data.type === "conservation") {
+    renderConversation(data.messages);
+  }
+  else{
     var message = data["text"];
     messages.push(message);
-    switch (data.type) {
-    case "conservation":
-        for (let i = 0; i < data.messages.length; i++) {
-        onlineUsersSelectorAdd(data.messages[i]);
-        }
-
     var str = '<ul class="space-y-2">';
     messages.forEach(function (msg) {
+     console.log("jkjk",msg)
       str += `<li class="flex ${
         msg.source == "bot" ? "justify-start" : "justify-end"
       }">
@@ -73,6 +74,7 @@
     });
     str += "</ul>";
     document.querySelector("#chat-log").innerHTML = str;
+  }
   };
 
   chatSocket.onclose = function (e) {
@@ -97,6 +99,24 @@
     );
 
     messageInputDom.value = "";
+
+    var chatLog = document.querySelector("#chat-log");
+    chatLog.innerHTML += message;
+
   };
+  function renderConversation(conversation) {
+  var chatLog = document.querySelector("#chat-log");
+  var str = '<ul class="space-y-2">';
+
+  conversation.forEach(function (msg) {
+    str += `<li class="flex">
+      <div class="relative max-w-xl px-4 py-2 rounded-lg shadow-md>
+
+        <span class="block font-normal">${msg}</span></div></li>`;
+  });
+
+  str += "</ul>";
+  chatLog.innerHTML = str;
+}
 </script>
 {% endblock %}

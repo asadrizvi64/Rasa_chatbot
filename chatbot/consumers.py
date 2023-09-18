@@ -19,14 +19,14 @@ class ChatBotConsumer(WebsocketConsumer):
         self.user = None  # new
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
-        if self.room_name == 'newChat':
-            room = Room.objects.create(name=self.scope['user'])
-            name = f'{room.name}_{room.id}'
-            room.name = name
-            room.save()
-            self.room_name = room.name
-        else:
-            self.room_name = Room.objects.filter(name=self.room_name).first()
+        # if self.room_name == 'new_chat':
+        #     room = Room.objects.create(name=self.scope['user'])
+        #     name = f'{room.name}_{room.id}'
+        #     room.name = name
+        #     room.save()
+        #     self.room_name = room.name
+        # else:
+        self.room_name = Room.objects.filter(name=self.room_name).first()
         self.room_group_name = f'{self.room_name.name}'
         # self.room = Room.objects.get(name=self.room_name)
         self.user = self.scope['user']  # new
@@ -40,7 +40,7 @@ class ChatBotConsumer(WebsocketConsumer):
             self.channel_name,
         )
         room = Room.objects.filter(name=self.room_name).first()
-        messages = Message.objects.filter(user=self.user, room=room).order_by('id')
+        messages = Message.objects.filter(user=self.user, room=self.room_name).order_by('id')
         self.send(json.dumps(
         {
                 "type": "conservation",
