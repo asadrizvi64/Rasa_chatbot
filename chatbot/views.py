@@ -221,7 +221,7 @@ class ChatView(TemplateView):
 
 def index_view(request):
     return render(request, 'chat/index.html', {
-        'rooms': Room.objects.all(),
+        'rooms': Room.objects.all(user=request.user),
     })
 
 
