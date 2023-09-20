@@ -108,10 +108,10 @@ pipeline:
 #     max_history: 5
 #     epochs: 100
 #     constrain_similarities: true
-policies: null
-# # No configuration for policies was provided. The following default policies were used to train your model.
-# # If you'd like to customize them, uncomment and adjust the policies.
-# # See https://rasa.com/docs/rasa/policies for more information.
+policies:
+## # No configuration for policies was provided. The following default policies were used to train your model.
+## # If you'd like to customize them, uncomment and adjust the policies.
+## # See https://rasa.com/docs/rasa/policies for more information.
 #   - name: MemoizationPolicy
 #   - name: RulePolicy
 #   - name: UnexpecTEDIntentPolicy
@@ -121,3 +121,12 @@ policies: null
 #     max_history: 5
 #     epochs: 100
 #     constrain_similarities: true
+#   - name: FormPolicy   # To use forms, you also need to include the FormPolicy in your policy configuration file.
+#   - name: FallbackPolicy
+#     # min confidence needed to accept an NLU prediction
+#     nlu_threshold: 0.3
+#     # min confidence needed to accept an action prediction from Rasa Core
+#     core_threshold: 0.3
+#     # name of the action to be called if the confidence of intent / action
+#     # is below the threshold
+#     fallback_action_name: action_default_fallback

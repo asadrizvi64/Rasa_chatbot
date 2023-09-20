@@ -1,30 +1,103 @@
 version: '3.1'
+#nlu:
+#- intent: greet
+#  examples: |
+#    - hi
+#    - hello
+#    - hello there
+#- intent: deny
+#  examples: |
+#    - bye
+#    - good bye
+#- intent: inquire_policy
+#  examples: |
+#    - Can you tell me about my policy?
+#    - What does my insurance policy cover?
+#    - describe my insurance policy
+#- intent: file_claim
+#  examples: |
+#    - I want to file a claim for my car accident.
+#    - Help me with a claim for water damage.
+#    - File a claim for my stolen items.
+#- intent: cancel_policy
+#  examples: |
+#    - I want to cancel my auto insurance policy.
+#    - How can I stop my insurance coverage?
+#    - Cancel my policy.
+#- intent: fallback
+#  examples: |
+#    - I didn't understand that
+#    - Can you help me with something else?
+
+
 nlu:
 - intent: greet
   examples: |
-    - hi
-    - hello
-    - hello there
-- intent: deny
+    - Hi
+    - Hello
+    - Hey
+
+- intent: order_pizza
   examples: |
-    - bye
-    - good bye
-- intent: inquire_policy
+    - I'd like to order a pizza
+    - Can I get a pizza
+    - Pizza order
+    - Order pizza
+
+- intent: provide_name
   examples: |
-    - Can you tell me about my policy?
-    - What does my insurance policy cover?
-    - describe my insurance policy
-- intent: file_claim
+    - My name is [Sarah](name)
+    - [John](name)
+    - You can call me [Alice](name)
+
+- intent: choose_pizza_type
   examples: |
-    - I want to file a claim for my car accident.
-    - Help me with a claim for water damage.
-    - File a claim for my stolen items.
-- intent: cancel_policy
+    - I want a [Pepperoni](pizza_type) pizza
+    - Give me a [Margherita](pizza_type) pizza
+    - I'll have [Veggie](pizza_type) pizza
+
+- intent: choose_pizza_size
   examples: |
-    - I want to cancel my auto insurance policy.
-    - How can I stop my insurance coverage?
-    - Cancel my policy.
+    - Small
+    - Medium
+    - Large
+
+- intent: choose_toppings
+  examples: |
+    - With mushrooms
+    - Extra cheese
+    - No toppings
+
+- intent: provide_address
+  examples: |
+    - Deliver to [123 Main Street](address)
+    - My address is [456 Elm Avenue](address)
+
+- intent: provide_phone_number
+  examples: |
+    - My phone number is [555-123-4567](phone_number)
+    - [987-654-3210](phone_number)
+
 - intent: fallback
   examples: |
-    - I didn't understand that
-    - Can you help me with something else?
+    - I don't understand
+    - This is off-topic
+    - Can we talk about something else
+
+- intent: affirm
+  examples: |
+    - Yes
+    - That's correct
+    - Indeed
+
+- intent: deny
+  examples: |
+    - No
+    - That's not right
+    - Incorrect
+
+- intent: thanks
+  examples: |
+    - Thank you
+    - Thanks a lot
+    - Appreciate it

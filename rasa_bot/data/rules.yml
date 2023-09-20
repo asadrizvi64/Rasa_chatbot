@@ -16,3 +16,22 @@ rules:
 #  - intent: nlu_fallback
 #  - action: action_two_stage_fallback
 #  - active_loop: action_two_stage_fallback
+- rule: Activate form
+  steps:
+  - intent: order_pizza
+  - action: pizza_order_form
+  - active_loop: pizza_order_form
+
+- rule: Submit form
+  condition:
+  # Condition that form is active.
+  - active_loop: pizza_order_form
+  steps:
+  # Form is deactivated
+  - action: pizza_order_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  # The actions we want to run when the form is submitted.
+  - action: utter_submit
+  - action: utter_slots_value

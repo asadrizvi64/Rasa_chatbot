@@ -43,3 +43,6 @@ def chat(channel_name, input_data, user):
                     "text": {"msg": messages, "source": "bot"},
                 },
             )
+
+
+

@@ -1,92 +1,123 @@
 version: '3.1'
+#intents:
+#- greet
+#- deny
+#- inquire_policy
+#- file_claim
+#- cancel_policy
+#- fallback
+#responses:
+#  utter_greet:
+#  - text: "It is important to note:\n 1. The descriptions and definitions of work,\
+#      \ vary state by state, and he suggested  GL ISO Class Code  may not be the only\
+#      \ class code required to cover the work performed by the GC or Specialty. \n\
+#      \  2.Insurance carriers may modify the allowable work for a given class code,\
+#      \ narrowing the work that has coverage under the policy.  It is important that\
+#      \ the general or specialty contractor read the entire policy prior to purchasing\
+#      \ any insurance coverage"
+#  utter_policy_info:
+#  - text: Your policy covers XYZ. For more details, contact our support you can also
+#      visit our website.
+#  utter_file_claim:
+#  - text: Sure, I can help you file a claim. Please provide your policy number.
+#  - text: Sure, I can help you file a claim. Please provide your policy and its relevant
+#      detail.
+#  utter_cancel_policy:
+#  - text: To cancel your policy, please contact our customer support.
+#  utter_please_rephrase:
+#  - text: I'm sorry, I didn't quite understand that. Could you rephrase
+#actions:
+#- action_fallback
+
 intents:
-- greet
-- deny
-- inquire_policy
-- file_claim
-- cancel_policy
-- fallback
-- wife_insurance
-- nlu_fallback
-- get_info
-- provide_info
-- choose_policy
-- ask_payment_options
-- ask_coverage_limits
-- ask_claims_process
-- confirm_purchase
-- ask_policy_documents
-- ask_claim_procedures
-- farewell
-- personal_info
-- ask_policy_number
-#    use_entities:
-#      - policy_number
-responses:
-  utter_greet:
-  - text: "'hello how are you and how can i help you"
-  - text: "'hello i hope you are fine how can i help you"
-  utter_policy_info:
-  - text: "please provide your policy number"
-  utter_file_claim:
-  - text: "'Sure, I can help you file a claim. Please provide your policy number."
-  - text: "'Sure, I can help you file a claim. Please provide your policy and its\
-      \ relevant detail."
-  utter_cancel_policy:
-  - text: "'To cancel your policy, please contact our customer support."
-  utter_please_rephrase:
-  - text: "'I'm sorry, I didn't quite understand that. Could you rephrase"
-  utter_wife_insurance_info:
-  - text: "'Ok so your wife is looking for insurance. Let's talk about it. "
-  - text: "'Sure let us talk about your wife insurance."
-  utter_ask_basic_info:
-  - text: "'Sure, I can help with car insurance. Can you please provide your name\
-      \ and location?"
-  utter_collect_info:
-  - text: "'Thank you, {name} from {location}. Let's proceed with gathering vehicle\
-      \ information."
-  utter_recommend_policy:
-  - text: "'Based on your information, I recommend the following policies: {recommended_policies}."
-  utter_generate_quote:
-  - text: "'Your insurance quote is {quote}"
-  'utter_explain_payment_options:':
-  - text: "'We offer various payment options, including monthly, quarterly, and annually."
-  utter_explain_coverage_limits:
-  - text: "'Coverage limits determine the maximum amount we will pay for a claim.\
-      \ It's important to choose limits that provide adequate protection."
-  utter_explain_claims_process:
-  - text: "'The claims process involves reporting an incident, submitting documentation,\
-      \ and our team will assess and process your claim."
-  utter_close_sale:
-  - text: "'Great! Your policy is almost ready. Would you like to start the application\
-      \ process?"
-  utter_assist_application:
-  - text: "'Sure, I can assist you in completing the application. Please provide the\
-      \ necessary information."
-  utter_provide_policy_documents:
-  - text: "'You can access your policy documents through our website. Here's the link:\
-      \ [Policy Documents](link)"
-  utter_explain_claim_procedures:
-  - text: "'Our claim procedures involve filing a claim, providing documentation,\
-      \ and our team will guide you through the process."
-  utter_farewell:
-  - text: "'Thank you for considering our car insurance. If you have any more questions\
-      \ in the future, feel free to reach out. Have a great day!"
-  utter_explain_payment_options:
-  - text: "'We offer several payment options for your convenience. You can choose\
-      \ to pay for your insurance policy on a monthly, quarterly, or annual basis.\
-      \ Please let me know if you have a preference, and I can provide more details\
-      \ on each option."
+  - greet
+  - order_pizza
+  - provide_name
+  - choose_pizza_type
+  - choose_pizza_size
+  - choose_toppings
+  - provide_address
+  - provide_phone_number
+
 entities:
-- policy_number
+  - pizza_type
+  - pizza_size
+  - toppings
+  - address
+  - phone_number
+  - name
+
 slots:
-  policy_number:
+  pizza_type:
     type: text
-    influence_conversation: true
     mappings:
       - type: from_entity
-        entity: policy_number
+        entity: pizza_type
+  pizza_size:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: pizza_size
+
+  toppings:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: toppings
+
+  address:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: address
+  phone_number:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: phone_number
+
+  name:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: name
+
+responses:
+  utter_greet:
+    - text: "Hello! How can I assist you today?"
+
+  utter_ask_name:
+    - text: "Sure, I can help you with that. What's your name?"
+
+  utter_choose_pizza_type:
+    - text: "Great, {name}! What type of pizza would you like to order? We have Margherita, Pepperoni, and Veggie."
+
+  utter_choose_pizza_size:
+    - text: "Excellent choice, {name}! What size would you like? We have small, medium, and large."
+
+  utter_choose_toppings:
+    - text: "Would you like any extra toppings on your {pizza_size} {pizza_type} pizza?"
+
+  utter_ask_address:
+    - text: "Thanks! Can you please provide your delivery address?"
+
+  utter_ask_phone_number:
+    - text: "Great! Lastly, what's your phone number in case we need to contact you?"
+
+  utter_order_confirmation:
+    - text: "Perfect! Your {pizza_size} {pizza_type} pizza with {toppings} will be delivered to {address}. We'll contact you at {phone_number} if needed. Enjoy your pizza!"
 
 actions:
-- action_fallback
-- action_provide_quote
+#  - pizza_order_form
+  - action_fallback
+
+forms:
+  pizza_order_form:
+    required_slots:
+      - pizza_type
+      - pizza_size
+      - toppings
+      - address
+      - phone_number
+      - name
+

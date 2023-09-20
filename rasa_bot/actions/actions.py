@@ -11,6 +11,7 @@ from typing import Any, Text, Dict, List
 import requests
 import json
 from rasa_sdk import Action, Tracker
+from rasa.core.actions.forms import FormAction
 from rasa_sdk.executor import CollectingDispatcher
 
 
@@ -54,20 +55,81 @@ class ActionPolicyInformation(Action):
         return []
 
 
-class ActionFallback(Action):
-    def name(self) -> Text:
+# class ActionFallback(Action):
+#     def name(self) -> Text:
+#         return "action_fallback"
+#
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#         # Get the user's message that didn't match any intent
+#         user_message = tracker.latest_message.get("text")
+#
+#         # Process the user's message (e.g., perform a specific action)
+#         response_message = "I'm sorry, I didn't understand. Can you please rephrase your question?"
+#
+#         # Send the response back to the user
+#         dispatcher.utter_message(text=response_message)
+#
+#         return []
+
+class FallbackAction(Action):
+    def name(self):
         return "action_fallback"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        # Get the user's message that didn't match any intent
-        user_message = tracker.latest_message.get("text")
+    def run(self, dispatcher, tracker, domain):
+        # Define a response to off-topic input
+        fallback_responses = [
+            "I'm sorry, I couldn't understand that. Let's get back to ordering your pizza.",
+            "That's an interesting topic, but let's focus on your pizza order. What type of pizza would you like?",
+        ]
 
-        # Process the user's message (e.g., perform a specific action)
-        response_message = "I'm sorry, I didn't understand. Can you please rephrase your question?"
+        # Select a random fallback response
+        import random
+        response = random.choice(fallback_responses)
 
-        # Send the response back to the user
-        dispatcher.utter_message(text=response_message)
+        # Send the response to the user
+        dispatcher.utter_message(response)
+
+        return []
+
+
+class PizzaOrderForm(FormAction):
+    def name(self) -> Text:
+        return "pizza_order_form"
+
+    @staticmethod
+    def required_slots(tracker: Tracker) -> List[Text]:
+        return ["name", "pizza_type", "pizza_size", "toppings", "address", "phone_number"]
+
+    def slot_mappings(self):
+        return {
+            "name": self.from_text(intent="provide_name"),
+            "pizza_type": self.from_entity(entity="pizza_type"),
+            "pizza_size": self.from_entity(entity="pizza_size"),
+            "toppings": self.from_entity(entity="toppings"),
+            "address": self.from_entity(entity="address"),
+            "phone_number": self.from_entity(entity="phone_number"),
+        }
+
+    def submit(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict]:
+        # Extract slot values and create the order here
+        name = tracker.get_slot("name")
+        pizza_type = tracker.get_slot("pizza_type")
+        pizza_size = tracker.get_slot("pizza_size")
+        toppings = tracker.get_slot("toppings")
+        address = tracker.get_slot("address")
+        phone_number = tracker.get_slot("phone_number")
+
+        # You can add logic to place the order and provide a confirmation here
+        dispatcher.utter_message(
+            f"Thank you, {name}! Your {pizza_size} {pizza_type} pizza with {toppings} will be delivered to {address}. "
+            f"We'll contact you at {phone_number} if needed. Enjoy your pizza!"
+        )
 
         return []
