@@ -6,6 +6,7 @@ import json
 # Create your models here.
 User = get_user_model()
 
+
 class Intent(models.Model):
     intent_name = models.CharField(max_length=255, null=True, blank=True)
 

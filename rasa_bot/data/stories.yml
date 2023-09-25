@@ -17,98 +17,226 @@ version: '3.1'
 #  - intent: cancel_policy
 #  - action: utter_cancel_policy
 
+#stories:
+#- story: Order pizza
+#  steps:
+#  - intent: greet
+#  - intent: order_pizza
+#  - action: pizza_order_form
+#  - active_loop: pizza_order_form
+#  - slot_was_set:
+#      - requested_slot: pizza_type
+#  - slot_was_set:
+#      - requested_slot: pizza_size
+#  - slot_was_set:
+#      - requested_slot: toppings
+#  - slot_was_set:
+#      - requested_slot: address
+#  - slot_was_set:
+#      - requested_slot: phone_number
+#  - action: pizza_order_form
+#  - active_loop: null
+#  - action: utter_order_confirmation
+#
+#- story: Order pizza with affirmations
+#  steps:
+#  - intent: greet
+#  - intent: order_pizza
+#  - action: pizza_order_form
+#  - active_loop: pizza_order_form
+#  - slot_was_set:
+#      - requested_slot: pizza_type
+#  - slot_was_set:
+#      - requested_slot: pizza_size
+#  - slot_was_set:
+#      - requested_slot: toppings
+#  - slot_was_set:
+#      - requested_slot: address
+#  - slot_was_set:
+#      - requested_slot: phone_number
+#  - intent: affirm
+#  - action: pizza_order_form
+#  - active_loop: null
+#  - action: utter_order_confirmation
+#
+#- story: Order pizza with denials
+#  steps:
+#  - intent: greet
+#  - intent: order_pizza
+#  - action: pizza_order_form
+#  - active_loop: pizza_order_form
+#  - slot_was_set:
+#      - requested_slot: pizza_type
+#  - slot_was_set:
+#      - requested_slot: pizza_size
+#  - slot_was_set:
+#      - requested_slot: toppings
+#  - slot_was_set:
+#      - requested_slot: address
+#  - slot_was_set:
+#      - requested_slot: phone_number
+#  - intent: deny
+#  - action: pizza_order_form
+#  - active_loop: null
+#  - action: utter_order_confirmation
+#
+#- story: Order pizza with off-topic input
+#  steps:
+#  - intent: greet
+#  - intent: order_pizza
+#  - action: pizza_order_form
+#  - active_loop: pizza_order_form
+#  - slot_was_set:
+#      - requested_slot: pizza_type
+#  - slot_was_set:
+#      - requested_slot: pizza_size
+#  - slot_was_set:
+#      - requested_slot: toppings
+#  - slot_was_set:
+#      - requested_slot: address
+#  - slot_was_set:
+#      - requested_slot: phone_number
+#  - intent: fallback  # Simulate off-topic input
+#  - action: action_fallback
+#  - active_loop: pizza_order_form
+#  - slot_was_set:
+#      - requested_slot: pizza_type
+#  - slot_was_set:
+#      - requested_slot: pizza_size
+#  - slot_was_set:
+#      - requested_slot: toppings
+#  - slot_was_set:
+#      - requested_slot: address
+#  - slot_was_set:
+#      - requested_slot: phone_number
+#  - action: pizza_order_form
+#  - active_loop: null
+#  - action: utter_order_confirmation
+
+
 stories:
-- story: Order pizza
-  steps:
-  - intent: greet
-  - intent: order_pizza
-  - action: pizza_order_form
-  - active_loop: pizza_order_form
-  - slot_was_set:
-      - requested_slot: pizza_type
-  - slot_was_set:
-      - requested_slot: pizza_size
-  - slot_was_set:
-      - requested_slot: toppings
-  - slot_was_set:
-      - requested_slot: address
-  - slot_was_set:
-      - requested_slot: phone_number
-  - action: pizza_order_form
-  - active_loop: null
-  - action: utter_order_confirmation
 
-- story: Order pizza with affirmations
+- story: happy path
   steps:
   - intent: greet
-  - intent: order_pizza
-  - action: pizza_order_form
-  - active_loop: pizza_order_form
-  - slot_was_set:
-      - requested_slot: pizza_type
-  - slot_was_set:
-      - requested_slot: pizza_size
-  - slot_was_set:
-      - requested_slot: toppings
-  - slot_was_set:
-      - requested_slot: address
-  - slot_was_set:
-      - requested_slot: phone_number
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+
+- story: sad path 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
   - intent: affirm
-  - action: pizza_order_form
-  - active_loop: null
-  - action: utter_order_confirmation
+  - action: utter_happy
 
-- story: Order pizza with denials
+- story: sad path 2
   steps:
   - intent: greet
-  - intent: order_pizza
-  - action: pizza_order_form
-  - active_loop: pizza_order_form
-  - slot_was_set:
-      - requested_slot: pizza_type
-  - slot_was_set:
-      - requested_slot: pizza_size
-  - slot_was_set:
-      - requested_slot: toppings
-  - slot_was_set:
-      - requested_slot: address
-  - slot_was_set:
-      - requested_slot: phone_number
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
   - intent: deny
-  - action: pizza_order_form
-  - active_loop: null
-  - action: utter_order_confirmation
+  - action: utter_goodbye
 
-- story: Order pizza with off-topic input
+- story: interactive_story_1
   steps:
   - intent: greet
-  - intent: order_pizza
-  - action: pizza_order_form
-  - active_loop: pizza_order_form
+  - action: utter_greet
+  - intent: buy_pizza
+  - action: simple_pizza_form
+  - active_loop: simple_pizza_form
   - slot_was_set:
-      - requested_slot: pizza_type
+    - requested_slot: pizza_size
   - slot_was_set:
-      - requested_slot: pizza_size
+    - pizza_size: large
   - slot_was_set:
-      - requested_slot: toppings
+    - pizza_size: large
   - slot_was_set:
-      - requested_slot: address
+    - requested_slot: pizza_type
   - slot_was_set:
-      - requested_slot: phone_number
-  - intent: fallback  # Simulate off-topic input
-  - action: action_fallback
-  - active_loop: pizza_order_form
+    - pizza_type: hawaiii
   - slot_was_set:
-      - requested_slot: pizza_type
+    - pizza_type: null
   - slot_was_set:
-      - requested_slot: pizza_size
+    - requested_slot: pizza_type
   - slot_was_set:
-      - requested_slot: toppings
+    - pizza_type: hawai
   - slot_was_set:
-      - requested_slot: address
+    - pizza_type: null
   - slot_was_set:
-      - requested_slot: phone_number
-  - action: pizza_order_form
+    - requested_slot: pizza_type
+  - slot_was_set:
+    - pizza_type: hawaii
+  - slot_was_set:
+    - pizza_type: hawaii
+  - slot_was_set:
+    - requested_slot: null
   - active_loop: null
-  - action: utter_order_confirmation
+  - action: utter_submit
+  - action: utter_pizza_slots
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: User interrupts the form and doesn't want to continue
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: buy_pizza
+  - action: simple_pizza_form
+  - active_loop: simple_pizza_form
+  - intent: stop
+  - action: utter_ask_continue
+  - or:
+    - intent: stop
+    - intent: affirm
+  - action: action_deactivate_loop
+  - active_loop: null
+
+- story: interactive_story_2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: buy_pizza
+  - action: simple_pizza_form
+  - active_loop: simple_pizza_form
+  - slot_was_set:
+    - requested_slot: pizza_size
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: buy_pizza
+  - action: simple_pizza_form
+  - active_loop: simple_pizza_form
+  - slot_was_set:
+    - requested_slot: pizza_size
+  - slot_was_set:
+    - pizza_size: s
+  - slot_was_set:
+    - pizza_size: s
+  - slot_was_set:
+    - requested_slot: pizza_type
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - intent: goodbye
+  - action: utter_goodbye
