@@ -1,123 +1,111 @@
 version: '3.1'
-#intents:
-#- greet
-#- deny
-#- inquire_policy
-#- file_claim
-#- cancel_policy
-#- fallback
-#responses:
-#  utter_greet:
-#  - text: "It is important to note:\n 1. The descriptions and definitions of work,\
-#      \ vary state by state, and he suggested  GL ISO Class Code  may not be the only\
-#      \ class code required to cover the work performed by the GC or Specialty. \n\
-#      \  2.Insurance carriers may modify the allowable work for a given class code,\
-#      \ narrowing the work that has coverage under the policy.  It is important that\
-#      \ the general or specialty contractor read the entire policy prior to purchasing\
-#      \ any insurance coverage"
-#  utter_policy_info:
-#  - text: Your policy covers XYZ. For more details, contact our support you can also
-#      visit our website.
-#  utter_file_claim:
-#  - text: Sure, I can help you file a claim. Please provide your policy number.
-#  - text: Sure, I can help you file a claim. Please provide your policy and its relevant
-#      detail.
-#  utter_cancel_policy:
-#  - text: To cancel your policy, please contact our customer support.
-#  utter_please_rephrase:
-#  - text: I'm sorry, I didn't quite understand that. Could you rephrase
-#actions:
-#- action_fallback
-
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
 intents:
   - greet
-  - order_pizza
+  - request_insurance_quote
   - provide_name
-  - choose_pizza_type
-  - choose_pizza_size
-  - choose_toppings
-  - provide_address
-  - provide_phone_number
+  - inform
+  - interrupt
 
 entities:
-  - pizza_type
-  - pizza_size
-  - toppings
-  - address
-  - phone_number
+  - insurance_type
+  - car_make
+  - car_model
   - name
-
-slots:
-  pizza_type:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: pizza_type
-  pizza_size:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: pizza_size
-
-  toppings:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: toppings
-
-  address:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: address
-  phone_number:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: phone_number
-
-  name:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: name
 
 responses:
   utter_greet:
     - text: "Hello! How can I assist you today?"
 
   utter_ask_name:
-    - text: "Sure, I can help you with that. What's your name?"
+    - text: "Please provide your name."
 
-  utter_choose_pizza_type:
-    - text: "Great, {name}! What type of pizza would you like to order? We have Margherita, Pepperoni, and Veggie."
+  utter_ask_car_type:
+    - text: "What type of insurance are you interested in? (e.g., car, home)"
 
-  utter_choose_pizza_size:
-    - text: "Excellent choice, {name}! What size would you like? We have small, medium, and large."
+  utter_ask_car_make:
+    - text: "What is the make of your car?"
 
-  utter_choose_toppings:
-    - text: "Would you like any extra toppings on your {pizza_size} {pizza_type} pizza?"
+  utter_ask_car_model:
+    - text: "What is the model of your car?"
 
-  utter_ask_address:
-    - text: "Thanks! Can you please provide your delivery address?"
+  utter_insurance_quote:
+    - text: "Your car insurance quote is $500 per year."
 
-  utter_ask_phone_number:
-    - text: "Great! Lastly, what's your phone number in case we need to contact you?"
-
-  utter_order_confirmation:
-    - text: "Perfect! Your {pizza_size} {pizza_type} pizza with {toppings} will be delivered to {address}. We'll contact you at {phone_number} if needed. Enjoy your pizza!"
-
-actions:
-#  - pizza_order_form
-  - action_fallback
+  utter_fallback:
+    - text: "I'm sorry, I didn't understand that. Please ask again."
 
 forms:
-  pizza_order_form:
+  insurance_quote_form:
     required_slots:
-      - pizza_type
-      - pizza_size
-      - toppings
-      - address
-      - phone_number
-      - name
+        - insurance_type
+        - car_make
+        - car_model
 
+slots:
+  name:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: name
+
+
+  insurance_type:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: insurance_type
+  car_make:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: car_make
+  car_model:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: car_model
+
+actions:
+  - insurance_quote_form
+  - validate_insurance_quote_form
+  - action_calculate_insurance_quote
+  - action_interrupt
+  - utter_ask_name
+  - utter_ask_car_type
+  - utter_ask_car_make
+  - utter_ask_car_model
+  - utter_insurance_quote
+  - utter_fallback
+#slots:
+#  pizza_size:
+#    type: text
+#    influence_conversation: true
+#    mappings:
+#    - type: from_entity
+#      entity: pizza_size
+#      conditions:
+#      - active_loop: pizza_form
+#        requested_slot: pizza_size
+#  pizza_type:
+#    type: text
+#    influence_conversation: true
+#    mappings:
+#    - type: from_entity
+#      entity: pizza_type
+#  vegetarian:
+#    type: bool
+#    influence_conversation: true
+#    mappings:
+#    - type: from_intent
+#      value: true
+#      intent: affirm
+#    - type: from_intent
+#      value: false
+#      intent: deny
