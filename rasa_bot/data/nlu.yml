@@ -1,103 +1,39 @@
 version: '3.1'
-#nlu:
-#- intent: greet
-#  examples: |
-#    - hi
-#    - hello
-#    - hello there
-#- intent: deny
-#  examples: |
-#    - bye
-#    - good bye
-#- intent: inquire_policy
-#  examples: |
-#    - Can you tell me about my policy?
-#    - What does my insurance policy cover?
-#    - describe my insurance policy
-#- intent: file_claim
-#  examples: |
-#    - I want to file a claim for my car accident.
-#    - Help me with a claim for water damage.
-#    - File a claim for my stolen items.
-#- intent: cancel_policy
-#  examples: |
-#    - I want to cancel my auto insurance policy.
-#    - How can I stop my insurance coverage?
-#    - Cancel my policy.
-#- intent: fallback
-#  examples: |
-#    - I didn't understand that
-#    - Can you help me with something else?
 
 
 nlu:
-- intent: greet
-  examples: |
-    - Hi
-    - Hello
-    - Hey
+  - intent: greet
+    examples: |
+      - Hello
+      - Hi there
+      - Hey
+      - Good morning
 
-- intent: order_pizza
-  examples: |
-    - I'd like to order a pizza
-    - Can I get a pizza
-    - Pizza order
-    - Order pizza
+  - intent: request_insurance_quote
+    examples: |
+      - Can I get a [car](insurance_type)insurance quote?
+      - How much is my [home](insurance_type) insurance?
+      - Tell me about [health](insurance_type) insurance
+      - Quote for motorcycle coverage
 
-- intent: provide_name
-  examples: |
-    - My name is [Sarah](name)
-    - [John](name)
-    - You can call me [Alice](name)
+  - intent: provide_name
+    examples: |
+      - My name is [John Doe](name)
+      - Call me [Alice](name)
+      - You can address me as [Sam](name)
 
-- intent: choose_pizza_type
-  examples: |
-    - I want a [Pepperoni](pizza_type) pizza
-    - Give me a [Margherita](pizza_type) pizza
-    - I'll have [Veggie](pizza_type) pizza
+  - intent: inform
+    examples: |
+      - I have a [Toyota](car_make) [Camry](car_model)
+      - [Car](insurance_type) insurance
+      - My vehicle is a [Honda](car_make) [CRV](car_model)
+      - I'm interested in [homeowners](insurance_type) insurance
+      - Can you provide a quote for [motorcycle](insurance_type) insurance?
 
-- intent: choose_pizza_size
-  examples: |
-    - Small
-    - Medium
-    - Large
-
-- intent: choose_toppings
-  examples: |
-    - With mushrooms
-    - Extra cheese
-    - No toppings
-
-- intent: provide_address
-  examples: |
-    - Deliver to [123 Main Street](address)
-    - My address is [456 Elm Avenue](address)
-
-- intent: provide_phone_number
-  examples: |
-    - My phone number is [555-123-4567](phone_number)
-    - [987-654-3210](phone_number)
-
-- intent: fallback
-  examples: |
-    - I don't understand
-    - This is off-topic
-    - Can we talk about something else
-
-- intent: affirm
-  examples: |
-    - Yes
-    - That's correct
-    - Indeed
-
-- intent: deny
-  examples: |
-    - No
-    - That's not right
-    - Incorrect
-
-- intent: thanks
-  examples: |
-    - Thank you
-    - Thanks a lot
-    - Appreciate it
+  - intent: interrupt
+    examples: |
+      - Stop
+      - Cancel
+      - Never mind
+      - I changed my mind
+      - Quit
