@@ -36,3 +36,15 @@ class DefinitionSerializer(ModelSerializer):
     class Meta:
         model = Definition
         fields = '__all__'
+
+
+class FormSerializer(ModelSerializer):
+    class Meta:
+        model = Form
+        fields = '__all__'
+
+
+class SlotSerializer(ModelSerializer):
+    class Meta:
+        model = Form
+        fields = '__all__'

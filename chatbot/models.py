@@ -93,3 +93,12 @@ class InsuranceType(models.Model):
     description = models.TextField(null=True, blank=True)
     keywords = models.JSONField(default=list)
 
+
+class Form(models.Model):
+    form_name = models.CharField(max_length=255, null=True, blank=True)
+    slots = models.JSONField(default=list)
+
+
+class Slot(models.Model):
+    slot_name = models.CharField(max_length=255, null=True, blank=True)
+    mappings = models.JSONField(default=list)

@@ -279,3 +279,13 @@ class DefinitionViewSet(ModelViewSet):
 class InsuranceTypeViewSet(ModelViewSet):
     queryset = InsuranceType.objects.all()
     serializer_class = InsuranceTypeSerializer
+
+
+class FormViewSet(ModelViewSet):
+    queryset = Form.objects.all()
+    serializer_class = FormSerializer
+
+
+class SlotViewSet(ModelViewSet):
+    queryset = Slot
+    serializer_class = SlotSerializer

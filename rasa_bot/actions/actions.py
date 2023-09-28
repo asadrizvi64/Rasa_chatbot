@@ -137,53 +137,208 @@
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
+from rasa_sdk.events import EventType
+from rasa_sdk.forms import FormValidationAction
+from typing import Text, List, Any, Dict
 from rasa_sdk.events import SlotSet
 
 
-class ActionCalculateInsuranceQuote(Action):
-    def name(self):
-        return "action_calculate_insurance_quote"
+# class ActionCalculateInsuranceQuote(Action):
+#     def name(self):
+#         return "action_calculate_insurance_quote"
+#
+#     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
+#         # Access slots for relevant information
+#         insurance_type = tracker.get_slot("insurance_type")
+#         name = tracker.get_slot("name")
+#
+#         # Implement your logic to calculate the insurance quote here
+#         # You can use the provided information like insurance_type and name
+#         # Calculate the quote and provide a response
+#         quote = 500  # Example quote
+#
+#         dispatcher.utter_message(f"Hi {name}, your {insurance_type} insurance quote is ${quote} per year.")
+#         return []
+#
+#
+# class ActionInterrupt(Action):
+#     def name(self):
+#         return "action_interrupt"
+#
+#     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
+#         dispatcher.utter_message("Sure, how can I assist you now?")
+#         return [SlotSet("requested_slot", None)]
+#
+#
+# class ValidateInsuranceQuoteForm(Action):
+#     def name(self):
+#         return "validate_insurance_quote_form"
+#
+#     async def run(
+#         self, dispatcher, tracker: Tracker, domain: DomainDict
+#     ) -> dict:
+#         # You can add custom validation logic here if needed
+#         insurance_type = tracker.get_slot("insurance_type")
+#
+#         # Define a list of valid insurance types
+#         valid_insurance_types = ["car", "home", "health"]
+#
+#         if insurance_type.lower() not in valid_insurance_types:
+#             dispatcher.utter_message("I'm sorry, we currently only provide quotes for car, home, and health insurance.")
+#             # Reset the slot to None since it's invalid
+#             return [SlotSet("insurance_type", None)]
+#
+#         # Slot is valid, continue with the form
+#         return [SlotSet("insurance_type", insurance_type)]
 
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
-        # Access slots for relevant information
-        insurance_type = tracker.get_slot("insurance_type")
-        name = tracker.get_slot("name")
+ALLOWED_PIZZA_SIZES = [
+    "small",
+    "medium",
+    "large",
+    "extra-large",
+    "extra large",
+    "s",
+    "m",
+    "l",
+    "xl",
+]
+ALLOWED_PIZZA_TYPES = ["car", "home", "property", "pepperoni", "hawaii"]
+VEGETARIAN_PIZZAS = ["mozzarella", "fungi", "veggie"]
+MEAT_PIZZAS = ["pepperoni", "hawaii"]
 
-        # Implement your logic to calculate the insurance quote here
-        # You can use the provided information like insurance_type and name
-        # Calculate the quote and provide a response
-        quote = 500  # Example quote
 
-        dispatcher.utter_message(f"Hi {name}, your {insurance_type} insurance quote is ${quote} per year.")
+class ValidateSimplePizzaForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_simple_pizza_form"
+
+    def validate_insurance_type(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `pizza_size` value."""
+
+        if slot_value.lower() not in ALLOWED_PIZZA_SIZES:
+            dispatcher.utter_message(text=f"We only accept pizza sizes: s/m/l/xl.")
+            return {"pizza_size": None}
+        dispatcher.utter_message(text=f"OK! You want to have a {slot_value} pizza.")
+        return {"pizza_size": slot_value}
+
+    def validate_pizza_type(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `pizza_type` value."""
+
+        if slot_value not in ALLOWED_PIZZA_TYPES:
+            dispatcher.utter_message(
+                text=f"I don't recognize that pizza. We serve {'/'.join(ALLOWED_PIZZA_TYPES)}."
+            )
+            return {"pizza_type": None}
+        dispatcher.utter_message(text=f"OK! You want to {slot_value} pizza.")
+        return {"pizza_type": slot_value}
+
+
+class AskForVegetarianAction(Action):
+    def name(self) -> Text:
+        return "action_ask_vegetarian"
+
+    def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
+        dispatcher.utter_message(
+            text="Would you like to order a vegetarian pizza?",
+            buttons=[
+                {"title": "yes", "payload": "/affirm"},
+                {"title": "no", "payload": "/deny"},
+            ],
+        )
         return []
 
 
-class ActionInterrupt(Action):
-    def name(self):
-        return "action_interrupt"
+class AskForPizzaTypeAction(Action):
+    def name(self) -> Text:
+        return "action_ask_pizza_type"
 
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
-        dispatcher.utter_message("Sure, how can I assist you now?")
-        return [SlotSet("requested_slot", None)]
+    def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
+        if tracker.get_slot("vegetarian"):
+            dispatcher.utter_message(
+                text=f"What kind of pizza do you want?",
+                buttons=[{"title": p, "payload": p} for p in VEGETARIAN_PIZZAS],
+            )
+        else:
+            dispatcher.utter_message(
+                text=f"What kind of pizza do you want?",
+                buttons=[{"title": p, "payload": p} for p in MEAT_PIZZAS],
+            )
+        return []
 
 
-class ValidateInsuranceQuoteForm(Action):
-    def name(self):
-        return "validate_insurance_quote_form"
+class ValidateFancyPizzaForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_fancy_pizza_form"
 
-    async def run(
-        self, dispatcher, tracker: Tracker, domain: DomainDict
-    ) -> dict:
-        # You can add custom validation logic here if needed
-        insurance_type = tracker.get_slot("insurance_type")
+    def validate_vegetarian(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `pizza_size` value."""
+        if tracker.get_intent_of_latest_message() == "affirm":
+            dispatcher.utter_message(
+                text="I'll remember you prefer vegetarian."
+            )
+            return {"vegetarian": True}
+        if tracker.get_intent_of_latest_message() == "deny":
+            dispatcher.utter_message(
+                text="I'll remember that you don't want a vegetarian pizza."
+            )
+            return {"vegetarian": False}
+        dispatcher.utter_message(text="I didn't get that.")
+        return {"vegetarian": None}
 
-        # Define a list of valid insurance types
-        valid_insurance_types = ["car", "home", "health"]
+    def validate_pizza_size(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `pizza_size` value."""
 
-        if insurance_type.lower() not in valid_insurance_types:
-            dispatcher.utter_message("I'm sorry, we currently only provide quotes for car, home, and health insurance.")
-            # Reset the slot to None since it's invalid
-            return [SlotSet("insurance_type", None)]
+        if slot_value not in ALLOWED_PIZZA_SIZES:
+            dispatcher.utter_message(text=f"We only accept pizza sizes: s/m/l/xl.")
+            return {"pizza_size": None}
+        dispatcher.utter_message(text=f"OK! You want to have a {slot_value} pizza.")
+        return {"pizza_size": slot_value}
 
-        # Slot is valid, continue with the form
-        return [SlotSet("insurance_type", insurance_type)]
+    def validate_pizza_type(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `pizza_type` value."""
+
+        if slot_value not in ALLOWED_PIZZA_TYPES:
+            dispatcher.utter_message(
+                text=f"I don't recognize that pizza. We serve {'/'.join(ALLOWED_PIZZA_TYPES)}."
+            )
+            return {"pizza_type": None}
+        if not slot_value:
+            dispatcher.utter_message(
+                text=f"I don't recognize that pizza. We serve {'/'.join(ALLOWED_PIZZA_TYPES)}."
+            )
+            return {"pizza_type": None}
+        dispatcher.utter_message(text=f"OK! You want to have a {slot_value} pizza.")
+        return {"pizza_type": slot_value}

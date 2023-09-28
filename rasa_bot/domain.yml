@@ -1,88 +1,88 @@
-version: '3.1'
-session_config:
-  session_expiration_time: 60
-  carry_over_slots_to_new_session: true
-intents:
-  - greet
-  - request_insurance_quote
-  - provide_name
-  - inform
-  - interrupt
-
-entities:
-  - insurance_type
-  - car_make
-  - car_model
-  - name
-
-responses:
-  utter_greet:
-    - text: "Hello! How can I assist you today?"
-
-  utter_ask_name:
-    - text: "Please provide your name."
-
-  utter_ask_car_type:
-    - text: "What type of insurance are you interested in? (e.g., car, home)"
-
-  utter_ask_car_make:
-    - text: "What is the make of your car?"
-
-  utter_ask_car_model:
-    - text: "What is the model of your car?"
-
-  utter_insurance_quote:
-    - text: "Your car insurance quote is $500 per year."
-
-  utter_fallback:
-    - text: "I'm sorry, I didn't understand that. Please ask again."
-
-forms:
-  insurance_quote_form:
-    required_slots:
-        - insurance_type
-        - car_make
-        - car_model
-
-slots:
-  name:
-    type: text
-    influence_conversation: true
-    mappings:
-    - type: from_entity
-      entity: name
-
-
-  insurance_type:
-    type: text
-    influence_conversation: true
-    mappings:
-      - type: from_entity
-        entity: insurance_type
-  car_make:
-    type: text
-    influence_conversation: true
-    mappings:
-      - type: from_entity
-        entity: car_make
-  car_model:
-    type: text
-    influence_conversation: true
-    mappings:
-      - type: from_entity
-        entity: car_model
-
-actions:
-  - insurance_quote_form
-  - validate_insurance_quote_form
-  - action_calculate_insurance_quote
-  - action_interrupt
-  - utter_ask_name
-  - utter_ask_car_type
-  - utter_ask_car_make
-  - utter_ask_car_model
-  - utter_insurance_quote
-  - utter_fallback
+#version: '3.1'
+#session_config:
+#  session_expiration_time: 60
+#  carry_over_slots_to_new_session: true
+#intents:
+#  - greet
+#  - request_insurance_quote
+#  - provide_name
+#  - inform
+#  - interrupt
+#
+#entities:
+#  - insurance_type
+#  - car_make
+#  - car_model
+#  - name
+#
+#responses:
+#  utter_greet:
+#    - text: "Hello! How can I assist you today?"
+#
+#  utter_ask_name:
+#    - text: "Please provide your name."
+#
+#  utter_ask_car_type:
+#    - text: "What type of insurance are you interested in? (e.g., car, home)"
+#
+#  utter_ask_car_make:
+#    - text: "What is the make of your car?"
+#
+#  utter_ask_car_model:
+#    - text: "What is the model of your car?"
+#
+#  utter_insurance_quote:
+#    - text: "Your car insurance quote is $500 per year."
+#
+#  utter_fallback:
+#    - text: "I'm sorry, I didn't understand that. Please ask again."
+#
+#forms:
+#  insurance_quote_form:
+#    required_slots:
+#        - insurance_type
+#        - car_make
+#        - car_model
+#
+#slots:
+#  name:
+#    type: text
+#    influence_conversation: true
+#    mappings:
+#    - type: from_entity
+#      entity: name
+#
+#
+#  insurance_type:
+#    type: text
+#    influence_conversation: true
+#    mappings:
+#      - type: from_entity
+#        entity: insurance_type
+#  car_make:
+#    type: text
+#    influence_conversation: true
+#    mappings:
+#      - type: from_entity
+#        entity: car_make
+#  car_model:
+#    type: text
+#    influence_conversation: true
+#    mappings:
+#      - type: from_entity
+#        entity: car_model
+#
+#actions:
+#  - insurance_quote_form
+#  - validate_insurance_quote_form
+#  - action_calculate_insurance_quote
+#  - action_interrupt
+#  - utter_ask_name
+#  - utter_ask_car_type
+#  - utter_ask_car_make
+#  - utter_ask_car_model
+#  - utter_insurance_quote
+#  - utter_fallback
 #slots:
 #  pizza_size:
 #    type: text
@@ -109,3 +109,107 @@ actions:
 #    - type: from_intent
 #      value: false
 #      intent: deny
+version: '3.1'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- buy_pizza
+- greet
+- goodbye
+- inform
+- affirm
+- stop
+- bot_challenge
+- buy_fancy_pizza
+- deny
+- mood_great
+- mood_unhappy
+- insurances
+#- request_fancy_form
+#- request_pizza_form
+entities:
+- pizza_size
+- pizza_type
+- insurance_type
+forms:
+  simple_pizza_form:
+    required_slots:
+    - insurance_type
+    - pizza_type
+  fancy_pizza_form:
+    required_slots:
+    - vegetarian
+    - pizza_size
+    - pizza_type
+slots:
+  insurance_type:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: insurance_type
+      conditions:
+      - active_loop: simple_pizza_form
+        requested_slot: insurance_type
+  pizza_type:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: pizza_type
+      conditions:
+        - active_loop: simple_pizza_form
+          requested_slot: pizza_type
+  vegetarian:
+    type: bool
+    influence_conversation: true
+    mappings:
+    - type: from_intent
+      value: true
+      intent: affirm
+    - type: from_intent
+      value: false
+      intent: deny
+  pizza_size:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: pizza_size
+
+responses:
+  utter_greet:
+  - text: Hey! How are you?
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'Here is something to cheer you up:'
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  utter_goodbye:
+  - text: Bye
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa.
+  utter_submit:
+  - text: I will now order a pizza for you!
+  utter_pizza_slots:
+  - text: I will order a {pizza_size} {pizza_type} pizza.
+  utter_ask_continue:
+  - text: Are you sure you want to stop the form?
+  utter_ask_insurance_type:
+  - text: What type of insurance you want to do?
+  utter_ask_pizza_type:
+  - text: What kind of pizza would you like to buy?
+actions:
+#- action_ask_pizza_type
+#- action_ask_vegetarian
+#- utter_ask_continue
+#- utter_goodbye
+#- utter_greet
+#- utter_iamabot
+#- utter_pizza_slots
+#- utter_submit
+- validate_fancy_pizza_form
+- validate_simple_pizza_form

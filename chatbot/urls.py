@@ -8,6 +8,8 @@ router.register('responses', ResponsesViewSeT, basename='responses')
 router.register('contractors', ContractorViewSet, basename='contractors')
 router.register('definition', DefinitionViewSet, basename='definition')
 router.register('insurance_type', InsuranceTypeViewSet, basename='insurance_type')
+router.register('slots', SlotViewSet, basename='slots')
+router.register('forms', InsuranceTypeViewSet, basename='insurance_type')
 
 urlpatterns = [
     path('update_nlu', NluApiView.as_view()),
