@@ -27,20 +27,19 @@ def chat(channel_name, input_data, user):
 
     if response.status_code == 200:
         rasa_response = response.json()
-        messages = rasa_response[0]['text']
-        list_of_message = list(messages.split('\n'))
+        messages = [item['text'] for item in rasa_response]
 # e        messages = list(messages.split(''))
-        for messages in list_of_message:
-            Message.objects.create(user=user, room=room, content=messages)
+        for message in messages:
+            Message.objects.create(user=user, room=room, content=message)
     else:
         # Handle the error, e.g., return an error response
         list_of_message = ["Failed to communicate with Rasa."]
-    for messages in list_of_message:
+    for message in messages:
         async_to_sync(channel_layer.group_send)(
                 channel_name,
                 {
                     "type": "chat.message",
-                    "text": {"msg": messages, "source": "bot"},
+                    "text": {"msg": message, "source": "bot"},
                 },
             )
 

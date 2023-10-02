@@ -105,10 +105,32 @@ class StoryApiView(APIView):
         self.stdout.write(self.style.SUCCESS('NLU data imported and nlu.yml file created'))
 
 
+class RuleApiView(APIView):
+    def post(self, request):
+        story_data = []
+        rules = Rule.objects.all()
+        # Define the path to the output NLU YAML file
+        output_file = os.path.join(os.getcwd(), 'rasa_bot/data/rules.yml')
+
+        nlu_content = {
+            "version": "3.1",
+            "rules": {[{"rule": item.rule_name, "steps": item.steps} for item in rules]}
+        }
+        transform_value(nlu_content, 'examples', literalize_list)
+
+        # Write the NLU data to the YAML file with multiline scalar style
+        with open(output_file, 'w') as yaml_file:
+            yaml.dump(nlu_content, yaml_file)
+        return Response("ok")
+
+        self.stdout.write(self.style.SUCCESS('NLU data imported and nlu.yml file created'))
+
 class DomainApiView(APIView):
     def post(self, request):
         response_data = {}
         docstring = '```'
+        forms = Form.objects.all()
+        slots = Slot.objects.all()
 
         for item in Responses.objects.all():
             dic = []
@@ -117,13 +139,16 @@ class DomainApiView(APIView):
                     dic.append({'text': f'''{value}'''})
             response_data[item.action] = dic
             # response_data.append(nlu_dat)
+            form = {item.form_name: item.slots for item in forms}
         # # Define the path to the output NLU YAML file
         output_file = os.path.join(os.getcwd(), 'rasa_bot/domain.yml')
         nlu_content = {
             "version": "3.1",
             "intents": [item.intent_name for item in Intent.objects.all()],
             "responses": response_data,
-            "actions": [item.action_name for item in CustomAction.objects.all()]
+            "actions": [item.action_name for item in CustomAction.objects.all()],
+            "forms": form,
+            "slots": {item.slot_name: item.mappings for item in slots}
         }
         transform_value(nlu_content, 'examples', literalize_list)
 
