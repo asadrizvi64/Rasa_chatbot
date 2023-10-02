@@ -46,5 +46,5 @@ class FormSerializer(ModelSerializer):
 
 class SlotSerializer(ModelSerializer):
     class Meta:
-        model = Form
+        model = Slot
         fields = '__all__'

@@ -145,9 +145,15 @@ nlu:
     - buy a fancy pizza
 - intent: buy_pizza
   examples: |
-    - i'd like to buy a pizza
-    - i want a pizza
-    - can i buy a pizza
+    - i'd like to  have an information about car policy
+    - i'd like to  have an information about health policy
+    - i'd like to  have an information about home policy
+    - i want a car policy information
+    - i want a home policy information
+    - i want a health policy information
+    - can i have an information about car policy
+    - can i have an information about home policy
+    - can i have an information about health policy
     - I'm interested in a savory round flattened bread of Italian origin
     - i want to buy a pizza
     - i want to order a pizza

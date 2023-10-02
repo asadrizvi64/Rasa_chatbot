@@ -212,4 +212,4 @@ actions:
 #- utter_pizza_slots
 #- utter_submit
 - validate_fancy_pizza_form
-- validate_simple_pizza_form
+#- validate_simple_pizza_form

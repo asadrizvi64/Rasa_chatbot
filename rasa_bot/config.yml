@@ -161,8 +161,8 @@ pipeline:
 policies:
  - name: MemoizationPolicy
  - name: TEDPolicy
-   max_history: 5
-   epochs: 50
+   max_history: 10
+   epochs: 100
    constrain_similarities: true
  - name: RulePolicy
 # - name: FormPolicy

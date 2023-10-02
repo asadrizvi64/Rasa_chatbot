@@ -102,3 +102,8 @@ class Form(models.Model):
 class Slot(models.Model):
     slot_name = models.CharField(max_length=255, null=True, blank=True)
     mappings = models.JSONField(default=list)
+
+
+class Rule(models.Model):
+    rule_name = models.CharField(max_length=255, null=True, blank=True)
+    steps = models.JSONField(default=list)
