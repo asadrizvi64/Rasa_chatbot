@@ -23,6 +23,8 @@ urlpatterns = [
     path('run_custom_actions', RunCustomActionCommandView.as_view()),
     path('terminate_rasa_server', TerminateRasaServerView.as_view()),
     path('get_policy_info', GetPolicyInfo.as_view()),
+    path('get_contractor_info', ContractorInfo.as_view()),
+    path('submit_contractor_info', SubmitContractorInfo.as_view()),
     path('api_call', ApiCall.as_view()),
     path('room', RoomView.as_view()),
 ]

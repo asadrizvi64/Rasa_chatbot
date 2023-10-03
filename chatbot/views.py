@@ -314,3 +314,25 @@ class FormViewSet(ModelViewSet):
 class SlotViewSet(ModelViewSet):
     queryset = Slot
     serializer_class = SlotSerializer
+
+
+class ContractorInfo(APIView):
+    def post(self, request):
+        contractor_id = request.data.get('contractor_id')
+        contractor_info = Contractor.objects.filter(id=contractor_id).first()
+        if contractor_info:
+            serializer = ContractorSerializer(ContractorInfo)
+            return Response(serializer.data)
+        return Response({"msg": "the contractor with this id does not exist"})
+
+
+class SubmitContractorInfo(APIView):
+    def post(self, request):
+        data = request.data
+        # contractor_info = Contractor.objects.filter(id=contractor_id).first()
+        serializer = ContractorSerializer(data=data)
+        if not serializer.is_valid():
+            return Response({"msg": "the data you enter is not valid"})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"response": "your data is successfully submitted"})

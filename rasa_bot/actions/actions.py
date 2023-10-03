@@ -7,13 +7,13 @@
 
 # This is a simple example for a custom action which utters "Hello World!"
 
-# from typing import Any, Text, Dict, List
-# import requests
-# import json
-# from rasa_sdk import Action, Tracker
-# from rasa.core.actions.forms import FormAction
-# from rasa_sdk.executor import CollectingDispatcher
-#
+from typing import Any, Text, Dict, List
+import requests
+import json
+from rasa_sdk import Action, Tracker
+from rasa.core.actions.forms import FormAction
+from rasa_sdk.executor import CollectingDispatcher
+
 #
 # class ActionSubmitClaim(Action):
 #     def name(self) -> Text:
@@ -25,34 +25,34 @@
 #         return []
 #
 #
-# class ActionPolicyInformation(Action):
-#     def name(self) -> Text:
-#         return "action_provide_quote"
-#
-#     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-#         # Implement logic to provide an insurance quote based on user input
-#         # policy_number = tracker.get_slot('policy_number')
-#         policy_number = tracker.latest_message['entities'][0]['value']
-#         end_point = "http://45.15.25.205:8007/chatbot/get_policy_info"
-#         data = {
-#             "policy_number": policy_number
-#         }
-#         response = requests.post(end_point, json=data)
-#         response = json.loads(response.text)
-#         if response.get('msg'):
-#             quote_message = response.get('msg')
-#         else:
-#             quote_message = response.get('policy_detail')
-#
-#
-#
-#         # policy = PolicyInformation.objects.filter(policy_number=policy_number).first()
-#
-#
-#         # Example logic: Provide a quote based on the insurance type
-#
-#         dispatcher.utter_message(quote_message)
-#         return []
+class ActionPolicyInformation(Action):
+    def name(self) -> Text:
+        return "action_provide_quote"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        # Implement logic to provide an insurance quote based on user input
+        # policy_number = tracker.get_slot('policy_number')
+        policy_number = tracker.latest_message['entities'][0]['value']
+        end_point = "http://45.15.25.205:8007/chatbot/get_policy_info"
+        data = {
+            "policy_number": policy_number
+        }
+        response = requests.post(end_point, json=data)
+        response = json.loads(response.text)
+        if response.get('msg'):
+            quote_message = response.get('msg')
+        else:
+            quote_message = response.get('policy_detail')
+
+
+
+        # policy = PolicyInformation.objects.filter(policy_number=policy_number).first()
+
+
+        # Example logic: Provide a quote based on the insurance type
+
+        dispatcher.utter_message(quote_message)
+        return []
 #
 #
 # # class ActionFallback(Action):
@@ -201,6 +201,8 @@ ALLOWED_PIZZA_SIZES = [
     "m",
     "l",
     "xl",
+    "car",
+    "home",
 ]
 ALLOWED_PIZZA_TYPES = ["car", "home", "property", "pepperoni", "hawaii"]
 VEGETARIAN_PIZZAS = ["mozzarella", "fungi", "veggie"]
@@ -342,3 +344,55 @@ class ValidateFancyPizzaForm(FormValidationAction):
             return {"pizza_type": None}
         dispatcher.utter_message(text=f"OK! You want to have a {slot_value} pizza.")
         return {"pizza_type": slot_value}
+
+
+class ActionContractorInfo(Action):
+    def name(self) -> Text:
+        return "action_contractor_info"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        # Implement logic to provide an insurance quote based on user input
+        # policy_number = tracker.get_slot('policy_number')
+        contract_id = tracker.latest_message['entities'][0]['value']
+        end_point = "http://45.15.25.205:8007/chatbot/get_contractor_info"
+        data = {
+            "contract_id": contract_id
+        }
+        response = requests.post(end_point, json=data)
+        response = json.loads(response.text)
+        if response.get('msg'):
+            quote_message = response.get('msg')
+        else:
+            quote_message = response.get('description')
+
+class ActionSubmitContractorInfo(Action):
+    def name(self) -> Text:
+        return "action_submit_contractor_info"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[
+        Dict[Text, Any]]:
+        # Implement logic to provide an insurance quote based on user input
+        name = tracker.get_slot('name')
+        description = tracker.get_slot('description')
+        # contract_id = tracker.latest_message['entities'][0]['value']
+        end_point = "http://45.15.25.205:8007/chatbot/get_contractor_info"
+        data = {
+            "name": name,
+            "description": description
+        }
+        response = requests.post(end_point, json=data)
+        response = json.loads(response.text)
+        if response.get('msg'):
+            quote_message = response.get('msg')
+        else:
+            quote_message = response.get('response')
+
+
+
+# policy = PolicyInformation.objects.filter(policy_number=policy_number).first()
+
+
+# Example logic: Provide a quote based on the insurance type
+
+        dispatcher.utter_message(quote_message)
+        return []
