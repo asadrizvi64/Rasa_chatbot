@@ -48,3 +48,15 @@ class SlotSerializer(ModelSerializer):
     class Meta:
         model = Slot
         fields = '__all__'
+
+
+class CoverageInfoSerializer(ModelSerializer):
+    class Meta:
+        model = CoverageOptions
+        fields = '__all__'
+
+
+class InsuranceCostSerializer(ModelSerializer):
+    class Meta:
+        model = InsuranceCost
+        fields = '__all__'

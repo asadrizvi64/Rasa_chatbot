@@ -111,3 +111,25 @@ stories:
   - action: utter_pizza_slots
   - intent: goodbye
   - action: utter_goodbye
+
+- story: get_coverage_information
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - intent: coverage_options
+    - action: utter_location
+    - intent: inform_coverage_location
+      entities:
+        - location: america
+    - action: action_coverage_option
+
+- story: get_insurance_cost
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - intent: get_policy_quote
+    - action: utter_location
+    - intent: inform_insurance_cost_location
+      entities:
+        - location: america
+    - action: action_insurance_cost

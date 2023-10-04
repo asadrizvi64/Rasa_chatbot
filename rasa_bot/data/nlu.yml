@@ -204,3 +204,62 @@ nlu:
     - My vehicle is a [Honda](car_make) [CRV](car_model)
     - I'm interested in [homeowners](insurance_type) insurance
     - Can you provide a quote for [motorcycle](insurance_type) insurance?
+
+- intent: inform_about_contractors_insurance
+  examples: |
+    - Tell me about contractors insurance
+    - I want to learn about insurance for contractors
+    - What is contractors insurance?
+    - Explain contractors insurance
+
+- intent: coverage_options
+  examples: |
+    - What are my coverage options?
+    - Tell me about different insurance coverage
+    - Coverage types
+    - Explain coverage options
+
+- intent: inform_coverage_location
+  examples: |
+    - my location is [america](location)
+    - [atlanta](location)
+    - [us](location)
+    - [spain](location)
+    - [italy](location)
+    - [paris](location)
+    - [england](location)
+    
+
+- intent: inform_insurance_cost_location
+  examples: |
+    - my location is [america](location)
+    - [atlanta](location)
+    - [us](location)
+    - [spain](location)
+    - [italy](location)
+    - [paris](location)
+    - [england](location)
+
+- intent: get_policy_quote
+  examples: |
+    - Can you provide a policy quote?
+    - I need a quote for my policy
+    - What's the cost of contractors insurance?
+    - Quote for contractors insurance
+
+
+- intent: legal_requirements
+  examples: |
+    - What are the legal requirements for contractors insurance?
+    - Tell me about regulations
+    - Legal obligations
+    - Contractors insurance laws
+
+- intent: customer_support
+  examples: |
+    - How can I get customer support?
+    - I need help with a claim
+    - Assistance with payment
+    - Customer service
+    - Policy request
+    - FAQ

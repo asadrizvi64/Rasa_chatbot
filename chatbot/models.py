@@ -107,3 +107,24 @@ class Slot(models.Model):
 class Rule(models.Model):
     rule_name = models.CharField(max_length=255, null=True, blank=True)
     steps = models.JSONField(default=list)
+
+
+class ConstractorInsuranceType(models.Model):
+    insurance_type = models.CharField(max_length=255, null=True, blank=True)
+    insurance_description = models.TextField(null=True, blank=True)
+
+
+class InsuranceCost(models.Model):
+    insurance_type = models.ForeignKey(ConstractorInsuranceType, related_name='insurance_cost',
+                                       null=True, blank=True, on_delete=models.CASCADE)
+    location = models.CharField(max_length=255, null=True, blank=True)
+    cost = models.CharField(max_length=255, null=True, blank=True)
+    quotes = models.TextField(null=True, blank=True)
+    legal_requirements = models.TextField(null=True, blank=True)
+
+
+class CoverageOptions(models.Model):
+    insurance_type = models.ForeignKey(ConstractorInsuranceType, related_name='insurance_coverage',
+                                       null=True, blank=True, on_delete=models.CASCADE)
+    options = models.TextField(null=True, blank=True)
+    location = models.CharField(max_length=255, null=True, blank=True)

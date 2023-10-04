@@ -336,3 +336,25 @@ class SubmitContractorInfo(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"response": "your data is successfully submitted"})
+
+
+class ContractorInsuranceCostView(APIView):
+    def post(self, request):
+        location = request.data.get('location')
+        insurance_cost = InsuranceCost.objects.filter(location=location).first()
+        if insurance_cost:
+            serializer = InsuranceCostSerializer(insurance_cost)
+            data = serializer.data
+            return Response({"cost": data.get("cost")})
+        return Response({"msg": "the cost with this location does not exist"})
+
+
+class CoverageInfoView(APIView):
+    def post(self, request):
+        location = request.data.get('location')
+        coverage_option = CoverageOptions.objects.filter(location=location).first()
+        if coverage_option:
+            serializer = CoverageInfoSerializer(coverage_option)
+            data = serializer.data
+            return Response(data.get("options"))
+        return Response({"msg": "the contractor with this id does not exist"})

@@ -396,3 +396,59 @@ class ActionSubmitContractorInfo(Action):
 
         dispatcher.utter_message(quote_message)
         return []
+
+
+class ActionInsuranceCost(Action):
+    def name(self) -> Text:
+        return "action_insurance_cost"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[
+        Dict[Text, Any]]:
+        # Implement logic to provide an insurance quote based on user input
+        location = tracker.latest_message['entities'][0]['value']
+        # description = tracker.get_slot('description')
+        # contract_id = tracker.latest_message['entities'][0]['value']
+        end_point = "http://127.0.0.1:8000/chatbot/insurance_cost"
+        data = {
+            "location": location,
+        }
+        response = requests.post(end_point, json=data)
+        response = json.loads(response.text)
+        if response.get('msg'):
+            quote_message = response.get('msg')
+        else:
+            quote_message = response.get('cost')
+        dispatcher.utter_message(quote_message)
+        return []
+
+
+class ActionCoverageOption(Action):
+    def name(self) -> Text:
+        return "action_coverage_option"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[
+        Dict[Text, Any]]:
+        # Implement logic to provide an insurance quote based on user input
+        location = tracker.latest_message['entities'][0]['value']
+        # description = tracker.get_slot('description')
+        # contract_id = tracker.latest_message['entities'][0]['value']
+        end_point = "http://127.0.0.1:8000/chatbot/coverage_options"
+        data = {
+            "location": location,
+        }
+        response = requests.post(end_point, json=data)
+        response = json.loads(response.text)
+        if response.get('msg'):
+            quote_message = response.get('msg')
+        else:
+            quote_message = response.get('options')
+
+
+
+# policy = PolicyInformation.objects.filter(policy_number=policy_number).first()
+
+
+# Example logic: Provide a quote based on the insurance type
+
+        dispatcher.utter_message(quote_message)
+        return []
