@@ -408,7 +408,7 @@ class ActionInsuranceCost(Action):
         location = tracker.latest_message['entities'][0]['value']
         # description = tracker.get_slot('description')
         # contract_id = tracker.latest_message['entities'][0]['value']
-        end_point = "http://127.0.0.1:8000/chatbot/insurance_cost"
+        end_point = "http://45.15.25.205:8007/chatbot/insurance_cost"
         data = {
             "location": location,
         }
@@ -432,7 +432,7 @@ class ActionCoverageOption(Action):
         location = tracker.latest_message['entities'][0]['value']
         # description = tracker.get_slot('description')
         # contract_id = tracker.latest_message['entities'][0]['value']
-        end_point = "http://127.0.0.1:8000/chatbot/coverage_options"
+        end_point = "http://45.15.25.205:8007/chatbot/coverage_options"
         data = {
             "location": location,
         }
