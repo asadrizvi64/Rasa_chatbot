@@ -126,12 +126,14 @@ intents:
 - mood_great
 - mood_unhappy
 - insurances
+- inform_insurance_cost_location
 #- request_fancy_form
 #- request_pizza_form
 entities:
 - pizza_size
 - pizza_type
 - insurance_type
+- location
 forms:
   simple_pizza_form:
     required_slots:
@@ -158,9 +160,9 @@ slots:
     mappings:
     - type: from_entity
       entity: pizza_type
-      conditions:
-        - active_loop: simple_pizza_form
-          requested_slot: pizza_type
+#      conditions:
+#        - active_loop: simple_pizza_form
+#          requested_slot: pizza_type
   vegetarian:
     type: bool
     influence_conversation: true
@@ -192,6 +194,8 @@ responses:
   - text: Bye
   utter_iamabot:
   - text: I am a bot, powered by Rasa.
+  utter_location:
+  - text: please enter your location
   utter_submit:
   - text: I will now order a pizza for you!
   utter_pizza_slots:
@@ -199,17 +203,23 @@ responses:
   utter_ask_continue:
   - text: Are you sure you want to stop the form?
   utter_ask_insurance_type:
-  - text: What type of insurance you want to do?
+    - text: What type of insurance you want to do
+    - condition:
+        - type: slot
+          name: insurance_type
+          value: null
+      text: What type of insurance you want to do, we offer car e.t.c?
   utter_ask_pizza_type:
   - text: What kind of pizza would you like to buy?
 actions:
-#- action_ask_pizza_type
-#- action_ask_vegetarian
-#- utter_ask_continue
-#- utter_goodbye
-#- utter_greet
-#- utter_iamabot
-#- utter_pizza_slots
-#- utter_submit
+- action_ask_vegetarian
+- utter_ask_continue
+- utter_goodbye
+- utter_greet
+- utter_iamabot
+- utter_pizza_slots
+- utter_submit
+- action_insurance_cost
+- action_coverage_option
 - validate_fancy_pizza_form
-#- validate_simple_pizza_form
+- validate_simple_pizza_form
