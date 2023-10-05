@@ -230,15 +230,15 @@ nlu:
     - [england](location)
     
 
-- intent: inform_insurance_cost_location
-  examples: |
-    - my location is [america](location)
-    - [atlanta](location)
-    - [us](location)
-    - [spain](location)
-    - [italy](location)
-    - [paris](location)
-    - [england](location)
+#- intent: inform_insurance_cost_location
+#  examples: |
+#    - my location is [america](location)
+#    - [atlanta](location)
+#    - [us](location)
+#    - [spain](location)
+#    - [italy](location)
+#    - [paris](location)
+#    - [england](location)
 
 - intent: get_policy_quote
   examples: |
@@ -246,6 +246,12 @@ nlu:
     - I need a quote for my policy
     - What's the cost of contractors insurance?
     - Quote for contractors insurance
+
+- intent: legal_requirements
+  examples: |
+    - Can you provide a legal requirements?
+    - what is legal requirements for contractor insurance?
+    - legal requirements for insurance policy
 
 
 - intent: legal_requirements

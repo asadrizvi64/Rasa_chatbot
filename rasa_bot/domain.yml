@@ -126,7 +126,10 @@ intents:
 - mood_great
 - mood_unhappy
 - insurances
-- inform_insurance_cost_location
+- inform_coverage_location
+- coverage_options
+- get_policy_quote
+- legal_requirements
 #- request_fancy_form
 #- request_pizza_form
 entities:
@@ -144,6 +147,15 @@ forms:
     - vegetarian
     - pizza_size
     - pizza_type
+  coverage_form:
+    required_slots:
+      - location
+  cost_form:
+    required_slots:
+      - location
+  requirement_form:
+    required_slots:
+      - location
 slots:
   insurance_type:
     type: text
@@ -179,6 +191,17 @@ slots:
     mappings:
       - type: from_entity
         entity: pizza_size
+  location:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: location
+        conditions:
+          - active_loop: cost_form
+            requested_slot: location
+          - active_loop: coverage_form
+            requested_slot: location
 
 responses:
   utter_greet:
@@ -194,7 +217,7 @@ responses:
   - text: Bye
   utter_iamabot:
   - text: I am a bot, powered by Rasa.
-  utter_location:
+  utter_ask_location:
   - text: please enter your location
   utter_submit:
   - text: I will now order a pizza for you!
@@ -221,5 +244,6 @@ actions:
 - utter_submit
 - action_insurance_cost
 - action_coverage_option
+- action_legal_requirement
 - validate_fancy_pizza_form
 - validate_simple_pizza_form

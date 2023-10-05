@@ -159,3 +159,62 @@ rules:
     - requested_slot: null
   - action: utter_submit
   - action: utter_pizza_slots
+
+
+- rule: Activate Fancy Pizza Form
+  steps:
+  - intent: buy_fancy_pizza
+  - action: fancy_pizza_form
+  - active_loop: fancy_pizza_form
+
+
+- rule: Activate Coverage Form
+  steps:
+  - intent: coverage_options
+  - action: coverage_form
+  - active_loop: fancy_pizza_form
+
+- rule: Submit Coverage Form
+  condition:
+  - active_loop: coverage_form
+  steps:
+  - action: coverage_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_coverage_option
+
+
+- rule: Activate Cost Form
+  steps:
+  - intent: get_policy_quote
+  - action: cost_form
+  - active_loop: cost_form
+
+
+- rule: Submit Cost Form
+  condition:
+  - active_loop: cost_form
+  steps:
+  - action: cost_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_insurance_cost
+
+- rule: Activate RequirementForm
+  steps:
+  - intent: legal_requirements
+  - action: requirement_form
+  - active_loop: requirement_form
+
+
+- rule: Submit Requirement Form
+  condition:
+  - active_loop: requirement_form
+  steps:
+  - action: requirement_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_legal_requirement

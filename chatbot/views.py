@@ -349,6 +349,17 @@ class ContractorInsuranceCostView(APIView):
         return Response({"msg": "the cost with this location does not exist"})
 
 
+class ContractorLegalRequirementView(APIView):
+    def post(self, request):
+        location = request.data.get('location')
+        requirement = InsuranceCost.objects.filter(location=location).first()
+        if requirement:
+            serializer = InsuranceCostSerializer(requirement)
+            data = serializer.data
+            return Response({"requirement": data.get("legal_requirements")})
+        return Response({"msg": "the cost with this location does not exist"})
+
+
 class CoverageInfoView(APIView):
     def post(self, request):
         location = request.data.get('location')
@@ -356,5 +367,5 @@ class CoverageInfoView(APIView):
         if coverage_option:
             serializer = CoverageInfoSerializer(coverage_option)
             data = serializer.data
-            return Response(data.get("options"))
+            return Response({"options":data.get("options")})
         return Response({"msg": "the contractor with this id does not exist"})

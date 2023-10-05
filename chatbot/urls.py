@@ -27,6 +27,7 @@ urlpatterns = [
     path('submit_contractor_info', SubmitContractorInfo.as_view()),
     path('insurance_cost', ContractorInsuranceCostView.as_view()),
     path('coverage_options', CoverageInfoView.as_view()),
+    path('requirement', ContractorLegalRequirementView.as_view()),
     path('api_call', ApiCall.as_view()),
     path('room', RoomView.as_view()),
 ]
