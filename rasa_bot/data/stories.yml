@@ -85,6 +85,36 @@ stories:
   - intent: goodbye
   - action: utter_goodbye
 
+- story: User interrupts the coverage form and doesn't want to continue
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: coverage_options
+  - action: coverage_form
+  - active_loop: coverage_form
+  - intent: stop
+  - action: utter_ask_continue
+  - or:
+    - intent: stop
+    - intent: affirm
+  - action: action_deactivate_loop
+  - active_loop: null
+
+- story: User interrupts the cost form and doesn't want to continue
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: get_policy_quote
+  - action: cost_form
+  - active_loop: cost_form
+  - intent: stop
+  - action: utter_ask_continue
+  - or:
+    - intent: stop
+    - intent: affirm
+  - action: action_deactivate_loop
+  - active_loop: null
+
 - story: interactive_story_2
   steps:
   - intent: greet
@@ -154,3 +184,19 @@ stories:
     - action: action_legal_requirement
     - intent: goodbye
     - action: utter_goodbye
+
+
+- story: User interrupts the coverage form and doesn't want to continue
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: legal_requirements
+  - action: requirement_form
+  - active_loop: requirement_form
+  - intent: stop
+  - action: utter_ask_continue
+  - or:
+    - intent: stop
+    - intent: affirm
+  - action: action_deactivate_loop
+  - active_loop: null
