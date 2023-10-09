@@ -98,6 +98,7 @@ stories:
     - intent: stop
     - intent: affirm
   - action: action_deactivate_loop
+  - action: utter_deactivate_form
   - active_loop: null
 
 - story: User interrupts the cost form and doesn't want to continue
@@ -113,6 +114,7 @@ stories:
     - intent: stop
     - intent: affirm
   - action: action_deactivate_loop
+  - action: utter_deactivate_form
   - active_loop: null
 
 - story: interactive_story_2
@@ -199,4 +201,5 @@ stories:
     - intent: stop
     - intent: affirm
   - action: action_deactivate_loop
+  - action: utter_deactivate_form
   - active_loop: null

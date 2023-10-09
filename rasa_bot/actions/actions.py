@@ -207,7 +207,7 @@ ALLOWED_PIZZA_SIZES = [
 ALLOWED_PIZZA_TYPES = ["car", "home", "property", "pepperoni", "hawaii"]
 VEGETARIAN_PIZZAS = ["mozzarella", "fungi", "veggie"]
 MEAT_PIZZAS = ["pepperoni", "hawaii"]
-
+ALLOWED_LOCATIONS = ["america", "paris", "england"]
 
 class ValidateSimplePizzaForm(FormValidationAction):
     def name(self) -> Text:
@@ -244,6 +244,86 @@ class ValidateSimplePizzaForm(FormValidationAction):
             return {"pizza_type": None}
         dispatcher.utter_message(text=f"OK! You want to {slot_value} pizza.")
         return {"pizza_type": slot_value}
+
+
+class ValidateCostForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_cost_form"
+
+    def validate_insurance_type(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `location` value."""
+
+        if slot_value.lower() not in ALLOWED_LOCATIONS:
+            dispatcher.utter_message(text=f"We only provide insurance for : america ,paris, england.")
+            return {"location": None}
+        dispatcher.utter_message(text=f"OK! cost for insurance in  {slot_value} is as follow.")
+        return {"location": slot_value}
+
+
+class ValidateCoverageForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_coverage_form"
+
+    def validate_insurance_type(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `location` value."""
+
+        if slot_value.lower() not in ALLOWED_LOCATIONS:
+            dispatcher.utter_message(text=f"We only provide insurance for : america ,paris, england.")
+            return {"location": None}
+        dispatcher.utter_message(text=f"OK! coverages  in  {slot_value} is as follow.")
+        return {"location": slot_value}
+
+
+class ValidateRequirementForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_requirement_form"
+
+    def validate_insurance_type(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `location` value."""
+
+        if slot_value.lower() not in ALLOWED_LOCATIONS:
+            dispatcher.utter_message(text=f"We only provide insurance for : america ,paris, england.")
+            return {"location": None}
+        dispatcher.utter_message(text=f"OK! legal requirements for insurance  in  {slot_value} is as follow.")
+        return {"location": slot_value}
+
+
+class ValidateSimplePizzaForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_simple_pizza_form"
+
+    def validate_insurance_type(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `pizza_size` value."""
+
+        if slot_value.lower() not in ALLOWED_PIZZA_SIZES:
+            dispatcher.utter_message(text=f"We only accept pizza sizes: s/m/l/xl.")
+            return {"pizza_size": None}
+        dispatcher.utter_message(text=f"OK! You want to have a {slot_value} pizza.")
+        return {"pizza_size": slot_value}
 
 
 class AskForVegetarianAction(Action):
@@ -418,7 +498,7 @@ class ActionInsuranceCost(Action):
             quote_message = response.get('msg')
         else:
             quote_message = response.get('cost')
-        dispatcher.utter_message("hdeskjhjfdflkj")
+        dispatcher.utter_message(quote_message)
         return [SlotSet("location", None)]
 
 
