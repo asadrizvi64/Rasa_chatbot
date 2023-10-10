@@ -218,3 +218,56 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: action_legal_requirement
+
+
+- rule: Interruption in cost Form
+  condition:
+  # Condition that form is active.
+  - active_loop: cost_form
+  steps:
+  # This unhappy path handles the case of an intent `bot_challenge`.
+  - intent: bot_challenge
+  - action: utter_iamabot
+  # Return to form after handling the `bot_challenge` intent
+  - action: cost_form
+  - active_loop: cost_form
+
+
+- rule: Interruption in coverage Form
+  condition:
+  # Condition that form is active.
+  - active_loop: coverage_form
+  steps:
+  # This unhappy path handles the case of an intent `bot_challenge`.
+  - intent: bot_challenge
+  - action: utter_iamabot
+  # Return to form after handling the `bot_challenge` intent
+  - action: coverage_form
+  - active_loop: coverage_form
+
+
+
+- rule: Interruption in coverage Form
+  condition:
+  # Condition that form is active.
+  - active_loop: coverage_form
+  steps:
+  # This unhappy path handles the case of an intent `bot_challenge`.
+  - intent: bot_challenge
+  - action: utter_iamabot
+  # Return to form after handling the `bot_challenge` intent
+  - action: coverage_form
+  - active_loop: coverage_form
+
+
+- rule: Interruption in requirement Form
+  condition:
+  # Condition that form is active.
+  - active_loop: requirement_form
+  steps:
+  # This unhappy path handles the case of an intent `bot_challenge`.
+  - intent: bot_challenge
+  - action: utter_iamabot
+  # Return to form after handling the `bot_challenge` intent
+  - action: requirement_form
+  - active_loop: requirement_form

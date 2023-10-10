@@ -136,6 +136,9 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
     - by the way, are you a human?
+    - what is 2+2
+    - hdjsfkjij
+
 - intent: buy_fancy_pizza
   examples: |
     - i'd like to buy a fancy pizza
